@@ -3,7 +3,19 @@
 using namespace std;
 
 void func2(int arr[], int N) {
+	int i = 0;
+	int j = N - 1;
+	while (i < j) {
+		if (arr[i] + arr[j] > 100) {
 
+		}
+		else if (arr[i] + arr[j] < 100) {
+
+		}
+		else { // 두 원소의 합이 100이면
+
+		}
+	}
 }
 
 int main() {

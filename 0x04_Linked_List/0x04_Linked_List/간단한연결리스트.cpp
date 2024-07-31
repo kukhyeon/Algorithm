@@ -32,7 +32,7 @@ public:
 
     void erase(int idx) {
         nxt[pre[idx]] = nxt[idx];
-        pre[nxt[idx]] = pre[idx];
+        if (nxt[idx] != -1) pre[nxt[idx]] = pre[idx];
     }
 };
 

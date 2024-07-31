@@ -4,36 +4,48 @@
 using namespace std;
 
 int main() {
-	list<string>editor = {}; // 영어 소문자만 가능, MAX 6*10^5
-	string text;
-	cin >> text;
-	editor.push_back(text);
-	auto cursor = editor.begin();
+    list<char> editor; // 영어 소문자만 가능, MAX 6*10^5
+    string text;
+    cin >> text;
 
-	int M;
-	cin >> M;
-	for (int i = 0; i < M; i++) {
-		string order;
-		cin >> order;
-		if (order[0] == 'L') {
-			if (cursor != editor.begin()) {
-				cursor--;
-			}
-		}
-		else if (order[0] == 'D') {
-			if (cursor != editor.end()) {
-				cursor++;
-			}
-		}
-		else if (order[0] == 'B') {
-			if (cursor != editor.begin()) {
-				cursor--;
-				cursor = editor.erase(cursor);
-			}
-		}
-		else if (order[0] == 'P') {
-			char word = order[order.size() - 1];
-			editor.insert(cursor,word);
-		}
-	}
+    for (char c : text) {
+        editor.push_back(c);
+    }
+
+    auto cursor = editor.end();
+
+    int M;
+    cin >> M;
+    for (int i = 0; i < M; i++) {
+        char order;
+        cin >> order;
+        if (order == 'L') {
+            if (cursor != editor.begin()) {
+                cursor--;
+            }
+        }
+        else if (order == 'D') {
+            if (cursor != editor.end()) {
+                cursor++;
+            }
+        }
+        else if (order == 'B') {
+            if (cursor != editor.begin()) {
+                cursor--;
+                cursor = editor.erase(cursor);
+            }
+        }
+        else if (order == 'P') {
+            char word;
+            cin >> word;
+            editor.insert(cursor, word);
+        }
+    }
+
+    for (char c : editor) {
+        cout << c;
+    }
+    cout << endl;
+
+    return 0;
 }

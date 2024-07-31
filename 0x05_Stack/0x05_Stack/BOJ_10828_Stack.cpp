@@ -5,9 +5,16 @@ using namespace std;
 const int MX = 1000005;
 
 class Stack {
-	int dat[MX] = {};
+	int* dat;
 	int p = 0;
 public:
+	Stack() {
+		dat = new int[MX];
+		p = 0;
+	}
+	~Stack() {
+		delete[] dat;
+	}
 	void push(int x);
 	int pop();
 	int size();
@@ -16,17 +23,19 @@ public:
 };
 
 void Stack::push(int x) {
-	dat[p] = x;
-	p++;
+	if (p < MX) {
+		dat[p] = x;
+		p++;
+	}
 }
 
 int Stack::pop() {
-	if (p != 0) {
+	if (p > 0) {
 		int temp = dat[p - 1];
-		dat[p-- - 1] = 0;
+		p--;
 		return temp;
 	}
-	else return -1;
+	return -1;
 }
 
 int Stack::size() {
@@ -38,8 +47,8 @@ bool Stack::empty() {
 }
 
 int Stack::top() {
-	if (p != 0) return dat[p - 1];
-	else return -1;
+	if (p > 0) return dat[p - 1];
+	return -1;
 }
 
 int main() {

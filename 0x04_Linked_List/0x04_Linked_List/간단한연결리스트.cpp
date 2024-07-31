@@ -29,6 +29,11 @@ public:
         nxt[prev] = unused; // 이전 리스트와 새로운 리스트를 연결
         unused++; // 다른 인덱스 사용을 위해 unused 증가
     }
+
+    void erase(int idx) {
+        nxt[pre[idx]] = nxt[idx];
+        pre[nxt[idx]] = pre[idx];
+    }
 };
 
 const int Linked_list::MX;

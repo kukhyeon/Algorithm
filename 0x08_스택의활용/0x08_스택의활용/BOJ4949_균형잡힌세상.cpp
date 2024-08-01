@@ -7,29 +7,35 @@ int main() {
 	while (true) {
 		string input;
 		getline(cin, input, '.');
+		if (input == "\n" || input.empty()) break;
 
 		stack<char> S;
 		bool balanced = true;
 
-		for (auto i :input) {
-			if (input[i] == '[' || input[i] == '(') {
-				S.push(input[i]);
+		for (auto i : input) {
+			if (i == '[' || i == '(') {
+				S.push(i);
 			}
-			else if (input[i] == ']' || input[i] == ')') {
-				if (input[i] == ']' && S.top() == '[') {
-					S.pop();
+			else if (i == ']' || i == ')') {
+				if (S.empty()) {
+					balanced = false;
+					break;
 				}
-				else if (input[i] == ')' && S.top() == '(') {
+				if (input[i] == ']' && S.top() == '[' || input[i] == ')' && S.top() == '(') {
 					S.pop();
 				}
 				else {
-					S.push(input[i]);
+					balanced = false;
+					break;
 				}
 			}
 		}
-		if (S.empty()) {
+		if (balanced) {
 			cout << "yes\n";
-			break;
 		}
+		else {
+			cout << "no\n";
+		}
+		cin.ignore();
 	}
 }

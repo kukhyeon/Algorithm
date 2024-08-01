@@ -4,13 +4,14 @@
 using namespace std;
 
 int main() {
-	cin.ignore();
-	stack<char> S;
 	while (true) {
 		string input;
 		getline(cin, input, '.');
-		int len = input.length();
-		for (int i = 0; i < len; i++) {
+
+		stack<char> S;
+		bool balanced = true;
+
+		for (auto i :input) {
 			if (input[i] == '[' || input[i] == '(') {
 				S.push(input[i]);
 			}

@@ -7,6 +7,7 @@ int main() {
 	while (true) {
 		string input;
 		getline(cin, input, '.');
+		cin.ignore();
 		if (input == "\n" || input.empty()) break;
 
 		stack<char> S;
@@ -21,7 +22,7 @@ int main() {
 					balanced = false;
 					break;
 				}
-				if (input[i] == ']' && S.top() == '[' || input[i] == ')' && S.top() == '(') {
+				if (i == ']' && S.top() == '[' || i == ')' && S.top() == '(') {
 					S.pop();
 				}
 				else {
@@ -30,12 +31,14 @@ int main() {
 				}
 			}
 		}
+		if (!S.empty()) {
+			balanced = false;
+		}
 		if (balanced) {
 			cout << "yes\n";
 		}
 		else {
 			cout << "no\n";
 		}
-		cin.ignore();
 	}
 }

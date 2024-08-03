@@ -8,38 +8,24 @@ int main() {
 	string input;
 	cin >> input;
 	int Dstick = 0;
-	int level = 0;
 
 	for (int i = 0; i < input.length(); i++) { // input
 		char c = input[i];
 		if (c == '(') {
-			if (!S.empty()) {
-				if (S.top() == '(') {
-					level++;
-				}
-			}
 			S.push(c);
 		}
 
 		else if (c == ')') { // input
 			if (!S.empty()) {
 				if (S.top() == '(') {
-					if (i > 2 && input[i - 2] == '(') { // laser
-						Dstick += level;
-						level--;
+					S.pop();
+					if (i > 0 && input[i - 1] == '(') {
+						Dstick += S.size();
 					}
 					else {
-						Dstick += level+1;
+						Dstick += 1;
 					}
 				}
-
-				else if (S.top() == ')') {
-					Dstick += 1;
-					if (level > 0) {
-						level--;
-					}
-				}
-				S.push(c);
 			}
 		}
 	}

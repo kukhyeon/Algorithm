@@ -12,10 +12,8 @@ int main() {
 		string input;
 		cin >> input;
 		for (auto c : input) {
-			if (!S.empty()) {
-				if (S.top() == c) {
+			if (!S.empty() && S.top() == c) {
 					S.pop();
-				}
 			}
 			else {
 				S.push(c);

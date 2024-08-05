@@ -11,7 +11,7 @@ int main() {
 	cin >> cal;
 	int** board = new int* [raw];  // 힙 메모리로 이동, raw개의 int* 타입 포인터 배열 할당
 	for (int i = 0; i < raw; i++) { // 각 행에 대해 다시 메모리를 할당
-		board[i] = new int[cal](); 
+		board[i] = new int[cal]();
 	}
 	bool** vis = new bool* [raw];  // 힙 메모리로 이동, raw개의 int* 타입 포인터 배열 할당
 	for (int i = 0; i < raw; i++) { // 각 행에 대해 다시 메모리를 할당
@@ -33,19 +33,18 @@ int main() {
 
 	cin.tie(0);
 	queue<pair<int, int>> Q;
-	if (vis[0][0]) {
-		Q.push({ 0,0 });
-	}
 
-	//test
 	int cnt = 0;
-	int temp = 0;
 	int maxnum = 0;
 	for (int i = 0; i < raw; i++) {
 		for (int j = 0; j < cal; j++) {
-			if (vis[i][j]) {
+			if (vis[i][j] || board[i][j] != 1) { // 수정 1: 조건 추가
 				continue;
 			}
+			Q.push({ i,j });
+			vis[i][j] = 1; // 수정 1: 방문 표시 추가
+			int temp = 1; // 수정 1: temp 초기화 위치 변경
+
 			if (board[i][j] == 1) {
 				Q.push({ i, j });
 				while (!Q.empty()) {
@@ -60,17 +59,16 @@ int main() {
 						Q.push({ nx, ny });
 					}
 				}
-				if (Q.empty()) {
-					cnt++;
-					if (temp > maxnum) {
-						maxnum = temp;
-					}
-					temp = 0;
+				cnt++;
+				if (temp > maxnum) {
+					maxnum = temp;
 				}
 			}
 		}
 	}
-	cout << cnt<< '\n' << maxnum;
+
+	cout << cnt << '\n' << maxnum;
+
 	// 동적 할당된 메모리 해제
 	for (int i = 0; i < raw; i++) {
 		delete[] board[i];

@@ -62,5 +62,23 @@ int main() {
 		}
 	}
 
-	// 탈출점에 대한 정보를 찾아야 한다. 탈출점은 '.'이며 row-1 || cal-1를 무조건 좌표로 갖는다.
+	// 탈출점에 대한 정보를 찾아야 한다. 탈출점은 가장자리에 위치하며 '.'이어야 한다.
+	int result = 1e9; // 큰 초기값으로 설정
+	for (int i = 0; i < raw; i++) {
+		for (int j = 0; j < cal; j++) {
+			if (board[i][j] != '.') continue;
+			if (i == 0 || j == 0 || i == raw - 1 || j == cal - 1 && board[i][j] == '.') { // 가장자리에 위치한 경우
+				if (J_time[i][j] != -1 && (F_time[i][j] == -1 || J_time[i][j] < F_time[i][j])) {
+					result = min(result, J_time[i][j] + 1);
+				}
+			}
+		}
+	}
+
+	if (result == 1e9) { // 탈출할 수 없는 경우
+		cout << "IMPOSSIBLE";
+	}
+	else {
+		cout << result;
+	}
 }

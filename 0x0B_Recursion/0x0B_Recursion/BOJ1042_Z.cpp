@@ -1,48 +1,39 @@
-﻿// S1
+﻿//S1
 #include <iostream>
 #include <cmath>
 using namespace std;
 
 int cnt = 0;
-void recursion(int N, int r, int c ,int row, int col) {
-	bool checker = true;
-	int power = pow(2, N); // 2^N
-	//Test
-	//cout << "재귀 test row: " << row << " col " << col << endl;
-	if (N == 1) { // 2x2면
-		for (int i = row; i < row + 2; i++) {
 
-			for (int j = col; j < col + 2; j++) {
-				/*
-				cout << "행: " << i << endl;
-				cout << "열: " << j << endl;
-				cout << cnt << endl;
-				*/
+void recursion(int N, int r, int c, int row, int col) {
+    if (N == 0) { 
+        cout << cnt << endl;
+        return;
+    }
 
-				if (i == r && j == c) {
-					cout << cnt;
-					checker = false;
-					break;
-				}
-				cnt++;
-			}
-			if (!checker) {
-				break;
-			}
-		}
-	}
+    int power = pow(2, N - 1); 
+    int blockSize = power * power; 
 
-	else {
-		for (int i = 0; i < 2; i++){
-			for (int j = 0; j < 2; j++) {
-				recursion(N-1, r, c, row + i * (power / 2), col + j * (power / 2));
-			}
-		}
-	}
-};
+    if (r < row + power && c < col + power) {
+        recursion(N - 1, r, c, row, col);
+    }
+    else if (r < row + power && c >= col + power) {
+        cnt += blockSize;
+        recursion(N - 1, r, c, row, col + power);
+    }
+    else if (r >= row + power && c < col + power) {
+        cnt += 2 * blockSize;
+        recursion(N - 1, r, c, row + power, col);
+    }
+    else {
+        cnt += 3 * blockSize;
+        recursion(N - 1, r, c, row + power, col + power);
+    }
+}
 
 int main() {
-	int N, r, c;
-	cin >> N >> r >> c;
-	recursion(N, r, c, 0, 0);
+    int N, r, c;
+    cin >> N >> r >> c;
+    recursion(N, r, c, 0, 0);
+    return 0;
 }

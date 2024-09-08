@@ -1,6 +1,5 @@
 ﻿// G3
 #include <iostream>
-#include <queue>
 using namespace std;
 
 int N, M;
@@ -8,8 +7,41 @@ int cctv[8]; // cctv 분류용
 int arrow[9][4]; // 행은 cctv 배열과 같고, 열은 상, 하, 좌, 우 인덱스 순
 int map[9][9];
 int cnt = 0;
-int dx[2] = { 1, -1 };
-int dy[2] = { 1, -1 };
+int p = 0; // cctv, arrow 배열 포인팅 및 cctv의 개수 체크
+
+// 사각지대를 최소화하는 재귀연산 진행, 매개변수 idx는 arrow의 행, cctv의 인덱스에 대응
+// t_cnt는 중간 값을 저장하는 매개변수
+ void gamsi(int idx, int t_cnt) {
+	 // break condition은 현재 맵의 cctv 개수를 초과할시이다.
+	 if (idx > p) {
+		 t_cnt = cnt - t_cnt;
+		 if (t_cnt < cnt) {
+			 cnt = t_cnt;
+			 return;
+		 }
+	 }
+	 // CCTV의 종류를 분류하여 계산
+	 if (cctv[idx] = 1) {
+		 for (int i = 0; i < 4; i++) {
+			 t_cnt += arrow[idx][i];
+			 gamsi(idx + 1, t_cnt);
+		 }
+	 }
+	 else if (cctv[idx] = 2) {
+			 t_cnt += arrow[idx][2] + arrow[idx][3];
+			 t_cnt += arrow[idx][2] + arrow[idx][3];
+
+	 }
+	 else if (cctv[idx] = 3) {
+
+	 }
+	 else if (cctv[idx] = 4) {
+
+	 }
+	 else if (cctv[idx] = 5) {
+
+	 }
+}
 
 int main() {
 	cin >> N >> M;
@@ -26,7 +58,6 @@ int main() {
 		}
 	}
 
-	int p = 0; // cctv 배열을 채우기 위해 선언
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
 			if (map[i][j] != 0 && map[i][j] != 6) {
@@ -52,8 +83,9 @@ int main() {
 					if (map[i][3] == 6) break;
 					arrow[p][3] += 1;
 				}
-				p++;
+				p++; // 다음 인덱스로
 			}
+			// 0의 개수를 센다.
 			if (map[i][j] == 0) {
 				cnt++;
 			}

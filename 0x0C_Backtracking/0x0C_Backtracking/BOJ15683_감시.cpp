@@ -71,28 +71,41 @@ int main() {
 
 	for (int i = 0; i < N; i++) {
 		for (int j = 0; j < M; j++) {
-			if (map[i][j] != 0 && map[i][j] != 6) {
+			if (map[i][j] == 1 || map[i][j] == 2 || map[i][j] == 3 || map[i][j] == 4 || map[i][j] == 5) {
 				cctv[p] = map[i][j];
 				// 감시 거리 탐색
+				// 우
+				map[i][j] = 7;
+				for (int k = j; k < M; k++) {
+					if (map[i][k] == 6) break;
+					if (map[i][k] == 7) continue;
+					arrow[p][0] += 1;
+					map[i][k] = 7;
+					cout << "우 좌표: " << i << " " << k << "\n";
+				}
 				// 상
-				for (int k = i; k > 0; k--) {
+				for (int k = i; k >= 0; k--) {
 					if (map[k][j] == 6) break;
+					if (map[k][j] == 7) continue;
 					arrow[p][1] += 1;
+					map[k][j] = 7;
+					cout << "상 좌표: " << k << " " << j << "\n";
+				}
+				// 좌
+				for (int k = j; k >= 0; k--) {
+					if (map[i][k] == 6) break;
+					if (map[i][k] == 7) continue;
+					arrow[p][2] += 1;
+					map[i][k] = 7;
+					cout << "좌 좌표: " << i << " " << k << "\n";
 				}
 				// 하
 				for (int k = i; k < N; k++) {
 					if (map[k][j] == 6) break;
+					if (map[k][j] == 7) continue;
 					arrow[p][3] += 1;
-				}
-				// 좌
-				for (int k = j; j > 0; j--) {
-					if (map[i][k] == 6) break;
-					arrow[p][2] += 1;
-				}
-				// 우
-				for (int k = j; j < M; j++) {
-					if (map[i][3] == 6) break;
-					arrow[p][0] += 1;
+					map[k][j] = 7;
+					cout << "하 좌표: " << k << " " << j << "\n";
 				}
 				p++; // 다음 인덱스로
 			}
@@ -102,5 +115,11 @@ int main() {
 			}
 		}
 	}
-	cout << cnt;
+	cout << cnt << "\n";
+	// test
+	for (int i = 0; i < p; i++) {
+		for (int j = 0; j < 4; j++) {
+			cout << "arrow" << "[" << i << "]" << "[" << j << "] = " << arrow[i][j] << "\n";
+		}
+	}
 }

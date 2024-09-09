@@ -4,7 +4,7 @@ using namespace std;
 
 int N, M;
 int cctv[8]; // cctv 분류용
-int arrow[9][4]; // 행은 cctv 배열과 같고, 열은 상, 하, 좌, 우 인덱스 순
+int arrow[9][4]; // 행은 cctv 배열과 같고, 열은 우, 상, 좌, 하 인덱스 순
 int map[9][9];
 int cnt = 0;
 int p = 0; // cctv, arrow 배열 포인팅 및 cctv의 개수 체크
@@ -24,22 +24,33 @@ int p = 0; // cctv, arrow 배열 포인팅 및 cctv의 개수 체크
 	 if (cctv[idx] = 1) {
 		 for (int i = 0; i < 4; i++) {
 			 t_cnt += arrow[idx][i];
+			 // 다음 cctv에 대한 재귀 반복
 			 gamsi(idx + 1, t_cnt);
 		 }
 	 }
 	 else if (cctv[idx] = 2) {
-			 t_cnt += arrow[idx][2] + arrow[idx][3];
-			 t_cnt += arrow[idx][2] + arrow[idx][3];
-
+		t_cnt += arrow[idx][0] + arrow[idx][2];
+		gamsi(idx + 1, t_cnt);
+		t_cnt += arrow[idx][1] + arrow[idx][3];
+		gamsi(idx + 1, t_cnt);
 	 }
 	 else if (cctv[idx] = 3) {
-
+		 for (int i = 0; i < 4; i++) {
+			 t_cnt += arrow[idx][i] + arrow[idx][(i + 1) % 4];
+			 gamsi(idx + 1, t_cnt);
+		 }
 	 }
 	 else if (cctv[idx] = 4) {
-
+		 for (int i = 0; i < 4; i++) {
+			 t_cnt += arrow[idx][i] + arrow[idx][(i + 1) % 4] + arrow[idx][(i + 2) % 4];
+			 gamsi(idx + 1, t_cnt);
+		 }
 	 }
 	 else if (cctv[idx] = 5) {
-
+		 for (int i = 0; i < 4; i++) {
+			 t_cnt += arrow[idx][i];
+		 }
+		 gamsi(idx + 1, t_cnt);
 	 }
 }
 
@@ -66,12 +77,12 @@ int main() {
 				// 상
 				for (int k = i; k > 0; k--) {
 					if (map[k][j] == 6) break;
-					arrow[p][0] += 1;
+					arrow[p][1] += 1;
 				}
 				// 하
 				for (int k = i; k < N; k++) {
 					if (map[k][j] == 6) break;
-					arrow[p][1] += 1;
+					arrow[p][3] += 1;
 				}
 				// 좌
 				for (int k = j; j > 0; j--) {
@@ -81,7 +92,7 @@ int main() {
 				// 우
 				for (int k = j; j < M; j++) {
 					if (map[i][3] == 6) break;
-					arrow[p][3] += 1;
+					arrow[p][0] += 1;
 				}
 				p++; // 다음 인덱스로
 			}
@@ -91,4 +102,5 @@ int main() {
 			}
 		}
 	}
+	cout << cnt;
 }
